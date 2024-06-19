@@ -1,0 +1,83 @@
+.chat-top{
+    display:flex;
+    justify-content:space-between;
+
+}
+
+.chat-top h5{
+    font-size:1.4rem;
+    font-weight:bolder;
+    font-family: Sora, sans-serif;
+
+}
+.chat-top button:hover{
+    background-color:transparent;
+}
+
+.chat-search{
+    width:100%;
+    height:auto;
+    margin-bottom:15px;
+}
+.chat-search .textField {
+    width: 100%;
+    background-color:#dae6ed;
+    border-radius:10px;
+    
+}
+
+
+.chat-search .textField .MuiOutlinedInput-notchedOutline {
+    border: none;
+}
+
+.chat-lists{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px solid #ccc;
+    cursor:pointer;
+}
+
+.chats{
+    display:flex;
+    align-items:center;
+   
+  
+}
+
+.chats img{
+    width: 50px;
+    height: 50px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-right:10px;
+}
+
+.list{
+    display:flex;
+    flex-direction:column;
+}
+
+.list h6{
+    margin:0;
+    font-size:16px;
+}
+
+.list p{
+    margin:5px 0 0 0;
+    font-size:14px;
+    color: #666;
+}
+
+
+
+.chat-date h6 {
+  
+    font-size: 12px;
+    color: #666;
+}
+
+
+
+

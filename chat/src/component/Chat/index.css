@@ -1,0 +1,15 @@
+.chat-container {
+    background-color: white;
+    display: flex;
+    margin: 0;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+.chat-list {
+    background-color: white;
+    width: 350px;
+    min-height: 100vh; /* Adjusted from min-height: 100% to 100vh for full viewport height */
+    border: 1px solid #ccc;
+    padding: 15px;
+}
