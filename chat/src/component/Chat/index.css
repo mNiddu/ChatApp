@@ -1,15 +1,29 @@
 .chat-container {
-    background-color: white;
+    background-color: #b7cfeb;
     display: flex;
     margin: 0;
-    padding: 10px;
-    justify-content: space-between;
+    height: 100vh;
+    border: 1px solid #ccc;
+
 }
 
 .chat-list {
     background-color: white;
     width: 350px;
-    min-height: 100vh; /* Adjusted from min-height: 100% to 100vh for full viewport height */
+   flex-shrink: 0;
     border: 1px solid #ccc;
     padding: 15px;
+   
 }
+
+.chat-page{
+    background-color:#dae6ed;
+    flex-grow: 1; /* Use remaining space */
+    display: flex;
+    flex-direction: column;
+ 
+    overflow: hidden; /* Ensure content doesn't overflow */
+    
+    
+}
+
