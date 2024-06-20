@@ -1,0 +1,73 @@
+.chat-main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.chat-nav {
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: white;
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.chat-msg {
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat-dates {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.chat-dates h6 {
+    background-color: #c7dcef;
+    padding: 5px;
+    border-radius: 20px;
+    color: #666;
+}
+
+.left-msg, .right-msg {
+    margin: 10px 0;
+    
+    display: flex;
+    justify-content: flex-start; /* Ensure messages start from the left */
+}
+
+.right-msg {
+    justify-content: flex-end; /* Align messages to the right */
+}
+
+.left-msg ul, .right-msg ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.left-msg li, .right-msg li {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    word-wrap: break-word; /* Ensure long words break to the next line */
+    overflow-wrap: break-word; /* Handle breaking of long words */
+    max-width: 80%; /* Adjust the max-width to your preference */
+}
+
+.left-msg li {
+    background-color: #e0f7fa;
+}
+
+.right-msg li {
+    background-color: #ffeb3b;
+    align-self: flex-end; /* Aligns the message to the right */
+}
+
+.msg-time {
+    margin-left: 10px;
+    color: #666; /* Optional styling for time */
+}

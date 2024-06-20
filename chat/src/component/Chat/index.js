@@ -11,7 +11,7 @@ export default function Index(){
             <div className="chat-list">
         <ChatList/>
             </div>
-            <div className="chat-container">
+            <div className="chat-page">
         <Chat/>
             </div>
         </div>
