@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
+    justify-content: space-between;
 }
 
 .chat-nav {
@@ -70,4 +71,94 @@
 .msg-time {
     margin-left: 10px;
     color: #666; /* Optional styling for time */
+}
+
+.chat-type {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 0 30px;
+    margin-bottom: 20px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.chat-icon {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+.chat-icon textarea {
+    border: none;
+    width: 100%;
+    height: auto;
+    resize: none; /* Prevents resizing */
+    font-size: 16px;
+    font-family: Sora, sans-serif;
+    overflow: hidden;
+    min-height: 40px; /* Set your desired minimum height here */
+    max-height: 200px;
+   overflow-y: auto;
+    box-sizing: border-box;
+    color: #666;
+}
+
+.chat-icon textarea::-webkit-scrollbar{
+    width: 8px;
+}
+
+.chat-icon textarea::-webkit-scrollbar-thumb{
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.chat-icon textarea::-webkit-scrollbar-thumb:hover{
+    background-color: #555;
+    cursor: pointer;
+}
+
+.chat-icon textarea::-webkit-scrollbar-track{
+    background-color: #f1f1f1;
+    border-radius: 4px;
+}
+
+/* Scrollbar button styles */
+.chat-icon textarea::-webkit-scrollbar-button {
+    background-color: #ddd; /* Color of the scrollbar buttons */
+    height: 12px; /* Height of the scrollbar buttons */
+    border-radius: 4px; /* Rounded corners for the scrollbar buttons */
+}
+
+
+.chat-icon textarea::-webkit-scrollbar-button:increment::before {
+  content: '▼';
+  color: #000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the arrow */
+  font-size: 10px; /* Adjust size of the arrow */
+  pointer-events: none; /* Ensure the arrow does not block button clicks */
+}
+.chat-icon textarea::-webkit-scrollbar-button:increment {
+    background-color: #ccc; /* Color of the increment (down/right) button */
+    cursor: pointer;
+}
+
+.chat-icon textarea::-webkit-scrollbar-button:decrement {
+    background-color: #bbb; /* Color of the decrement (up/left) button */
+    cursor: pointer;
+}
+.chat-icon textarea:focus {
+    outline: none;
+}
+
+.iconify {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
