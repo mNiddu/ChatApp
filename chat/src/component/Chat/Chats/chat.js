@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Chat.css";
 import Navbar from "../Navbar/Navbar";
-import { Picker } from 'emoji-mart';
-// import 'emoji-mart/css/emoji-mart.css';
+import Picker from '@emoji-mart/react';
+import data from '@emoji-mart/data';
 import { ReactComponent as Mic } from "../../Images/mic.svg";
 import { ReactComponent as Emoji } from "../../Images/emoji.svg";
 import { ReactComponent as File } from "../../Images/file.svg";
 import { ReactComponent as Send } from "../../Images/send.svg";
-
+import {IconButton} from  '@mui/material'
 export default function Chat() {
   const textareaRef = useRef(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -32,10 +32,13 @@ export default function Chat() {
   }, []);
 
   const addEmoji = (emoji) => {
-    const emojiText = emoji.native;
+    const emojiText = emoji.apple;
     setText(text + emojiText);
   };
 
+  const handle=()=>{
+    alert(11)
+  }
   return (
     <div className="chat-main">
       <div className="chat-nav">
@@ -78,15 +81,18 @@ export default function Chat() {
           ></textarea>
         </div>
         <div className="iconify">
-          <Emoji onClick={() => setShowEmojiPicker(!showEmojiPicker)} />
-          {showEmojiPicker && (
-            <Picker
-              onSelect={addEmoji}
-              style={{ position: 'absolute', bottom: '50px', right: '50px' }}
-            />
+        <button>  <Emoji onClick={() => setShowEmojiPicker(!showEmojiPicker)} /></button>
+            {showEmojiPicker && (
+            <div style={{ position: 'absolute', bottom: '80px', right: '50px', zIndex: 1 }}>
+              <Picker data={data} onEmojiSelect={addEmoji} />
+            </div>
           )}
-          <File />
-          <Send />
+    
+
+
+         <button > <File /></button>
+         <button  className={text ?"submit":"disable"}  disabled={!text} onClick={handle}> <Send /></button>
+          
         </div>
       </div>
     </div>
