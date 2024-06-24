@@ -1,9 +1,14 @@
 import React,{useState} from 'react'
 import './Register.css'
 import RegisterLogo from '../Images/Register.png'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup'
+import axios from 'axios'
+
 export default function Register() {
+  const navigate = useNavigate();
   const [data,setData]=useState({
     name:"",
     email:"",
@@ -24,7 +29,7 @@ export default function Register() {
     setError(newError)
   }
 
-  const validationShcema = Yup.object({
+  const validationSchema = Yup.object({
     name:Yup.string().required("Name is required"),
     email:Yup.string().required("Email is required").email("Invalid email required"),
     phone:Yup.string().required("Phone Number required").min(10,"Enter ten degits Number").matches(/[0-9]/,"Enter Only Number"),
@@ -35,24 +40,78 @@ export default function Register() {
     .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
     .matches(/[a-z]/, "Password must contain at least one lowercase letter"),
   })
-  const HandleSubmit=async()=>{
-   
-    try{
-      await validationShcema.validate(data,{abortEarly:false})
-      setError({})
-      console.log("Form submitted successfully");
-      alert(1)
+  const HandleSubmit = async () => {
+    try {
+      await validationSchema.validate(data, { abortEarly: false });
+      setError({});
+
+      // If validation passes, proceed with form submission
+      // For example, sending data to the server using Axios
+      const response = await axios.post('http://localhost:5000/api/Chat/register', data);
+      if(response.data.success==true) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          
+          });
+          setTimeout(()=>{
+            navigate('/login')
+          },1000)
+      }else{
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          
+          });
+          setTimeout(()=>{
+            navigate('/login')
+          },1000)
+      }
+
+      // Handle success response
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const newError = {};
+        err.inner.forEach((error) => {
+          newError[error.path] = error.message;
+        });
+        setError(newError);
+      } else {
+        // Handle other errors
+        console.error('Error submitting the form', err);
+      }
     }
-    catch(err){
-      const newError={}
-      err.inner.forEach((ele)=>{
-        newError[ele.path]=ele.message;
-      })
-      setError(newError)
-    }
-  }
+};
+
   return (
     <div className='reg-container'>
+    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+
+/>
+{/* Same as */}
+<ToastContainer />
       <div className='reg-card'>
         <div className='reg-main'>
           <div className='reg-top'>

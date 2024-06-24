@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import "./Login.css";
 import LoginLogo from "../Images/Login.jpeg";
 import * as Yup from "yup";
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+  
 export default function Login() {
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,6 +34,9 @@ export default function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    const newError={...error}
+    delete newError[name];
+    setError(newError);
   };
 
   const handleSubmit = async (e) => {
@@ -36,19 +44,66 @@ export default function Login() {
     try {
       await validationSchema.validate(formData, { abortEarly: false });
       setError({});
-      // Submit form
-      console.log("Form submitted successfully");
+      const response = await axios.post('http://localhost:5000/api/Chat/login',formData)
+      if(response.data.success==true) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          
+          });
+          setTimeout(()=>{
+            navigate('/')
+          },1000)
+      }else{
+        toast.error(response.data.message, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          
+          });
+         
+      }
     } catch (err) {
+     if(err instanceof Yup.ValidationError){
       const newError = {};
       err.inner.forEach((element) => {
         newError[element.path] = element.message;
       });
       setError(newError);
+    }else{
+      console.log(err)
     }
+     }
   };
 
   return (
     <div className="login-container">
+       <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+
+/>
+{/* Same as */}
+<ToastContainer />
       <div className="login-card">
         <div className="login-main">
           <div className="login-top">
