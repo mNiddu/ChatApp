@@ -53,7 +53,9 @@
 .reg-input input {
     padding: 15px;
     border: none;
+    background-color: white;
     border-radius: 10px;
+    width: 100%;
 }
 
 .reg-input input::placeholder {
@@ -142,7 +144,7 @@
         width: 90%;
         display:'flex';
         justify-content:'center';
-        align-items:'center';
+        align-items:'center';   
        
     }
     .reg-image {

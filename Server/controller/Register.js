@@ -4,9 +4,10 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const Register = async (req, res) => {
   try {
-    console.log(req.body);
+  
     const { name, email, phone, password } = req.body;
-    
+    const image=req.file.filename;
+  
     // Find user by email
     const FindUser = await Registration.findOne({ email });
     if (FindUser) {
@@ -18,7 +19,7 @@ const Register = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create a new registration
-    const registered = new Registration({ name, email, phone, password: hashedPassword });
+    const registered = new Registration({ name, email, phone,image,password: hashedPassword });
     const AddRegistration = await registered.save();
     const success = true;
 
