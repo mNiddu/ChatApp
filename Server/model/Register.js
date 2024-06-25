@@ -11,6 +11,9 @@ const Registration = new Schema({
     phone:{
         type:Number
     },
+    image:{
+        type:String
+    },
     password:{
         type:String
     },

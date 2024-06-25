@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import './Register.css'
 import RegisterLogo from '../Images/Register.png'
 import {Link, useNavigate} from 'react-router-dom'
+import {ReactComponent as ProfileBtn} from '../Images/profile.svg'
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
 import * as Yup from 'yup'
@@ -15,7 +16,9 @@ export default function Register() {
     phone:"",
     password:""
   })
+  const[Profile,setProfile]=useState({})
   const [error,setError]=useState({})
+  console.log(data,'data')
   const HandleChange=(e)=>{
     const {name,value}=e.target;
     setData({...data,[name]:value})
@@ -29,6 +32,15 @@ export default function Register() {
     setError(newError)
   }
 
+  const HandleImage=(e)=>{
+    const file=e.target.files[0];
+    setProfile(file)
+    console.log(file,'file')
+  }
+
+  const HandleButtonClick=()=>{
+    document.getElementById('file-input').click();
+  }
   const validationSchema = Yup.object({
     name:Yup.string().required("Name is required"),
     email:Yup.string().required("Email is required").email("Invalid email required"),
@@ -45,9 +57,17 @@ export default function Register() {
       await validationSchema.validate(data, { abortEarly: false });
       setError({});
 
-      // If validation passes, proceed with form submission
-      // For example, sending data to the server using Axios
-      const response = await axios.post('http://localhost:5000/api/Chat/register', data);
+          const formData=new FormData();
+
+      console.log([formData],'formData');
+      formData.append('name', data.name)
+      formData.append('email', data.email)
+      formData.append('phone', data.phone)
+      formData.append('password', data.password)
+      formData.append('profile', Profile)
+
+     
+      const response = await axios.post('http://localhost:5000/api/Chat/register',formData);
       if(response.data.success==true) {
         toast.success(response.data.message, {
           position: "top-right",
@@ -124,6 +144,12 @@ theme="light"
 
             <input type='email' name="email" onChange={HandleChange} placeholder='Enter your Email' />
             {error.email && <p className="error-message">{error.email}</p>}
+
+            <div  ><input type='file' id='file-input'  style={{display:'none'}} name="profile" onChange={HandleImage} placeholder='Upload Profiles' />
+
+            <input type='text' onClick={HandleButtonClick} value={Profile ? Profile.name:''} style={{cursor:'pointer'}} placeholder='Upload Profile' readOnly/>
+            {/* <button  onClick={HandleButtonClick}><ProfileBtn/></button> */}
+            {error.email && <p className="error-message">{error.email}</p>}</div>
 
             <input type='tel' name="phone" onChange={HandleChange} placeholder='Enter your Phone' />
             {error.phone && <p className="error-message">{error.phone}</p>}
