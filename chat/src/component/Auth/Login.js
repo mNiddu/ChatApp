@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import "./Login.css";
 import LoginLogo from "../Images/Login.jpeg";
 import * as Yup from "yup";
@@ -6,8 +6,10 @@ import {Link, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
-  
+  import { LoginToken } from '../Redux/Action';
+  import { useSelector, useDispatch } from 'react-redux';
 export default function Login() {
+  const dispatch=useDispatch();
   const navigate=useNavigate()
   const [formData, setFormData] = useState({
     email: "",
@@ -38,7 +40,12 @@ export default function Login() {
     delete newError[name];
     setError(newError);
   };
-
+  useEffect(() => {
+    const savedToken = JSON.parse(localStorage.getItem('UserToken'));
+    if (savedToken) {
+      dispatch(LoginToken(savedToken));
+    }
+  }, [dispatch]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -57,6 +64,8 @@ export default function Login() {
           theme: "light",
           
           });
+          localStorage.setItem('UserToken',JSON.stringify(response.data.UserToken))
+         
           setTimeout(()=>{
             navigate('/')
           },1000)
