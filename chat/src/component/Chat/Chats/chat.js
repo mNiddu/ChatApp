@@ -8,8 +8,12 @@ import { ReactComponent as Emoji } from "../../Images/emoji.svg";
 import { ReactComponent as File } from "../../Images/file.svg";
 import { ReactComponent as Send } from "../../Images/send.svg";
 import {IconButton} from  '@mui/material'
+import { useSelector } from "react-redux";
+
 export default function Chat() {
   const textareaRef = useRef(null);
+  const TokenId=useSelector(state=>state.loginId)
+  console.log(TokenId,'TokenId')
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [text, setText] = useState('');
 
