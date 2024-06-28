@@ -9,6 +9,11 @@ const AddContact = new Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'Register'
     },
+    status:{
+        type:String,
+        enum:['pending','accepted','rejected'],
+        default:'pending'
+    },
     date:{
         type:Date,
         default:Date.now

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router()
 const {Contact} = require('../controller/AddContact')
-
-router.post('/contact',Contact)
+const Admin = require('../middleware/Admin')
+router.post('/contact',Admin,Contact)
 module.exports=router
