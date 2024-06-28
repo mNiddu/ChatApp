@@ -44,7 +44,7 @@ const Login = async(req,res) => {
         }
         const UserId=FindEmail.id
         console.log(UserId)
-        const UserToken=jwt.sign(process.env.Key,UserId)
+        const UserToken=jwt.sign(UserId,process.env.Key)
         return res.json({ message:"Login SuccessFull",success:true,UserToken})
 
     }

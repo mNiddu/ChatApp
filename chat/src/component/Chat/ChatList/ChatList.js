@@ -5,6 +5,10 @@ import { IconButton, TextField, InputAdornment,Button,Typography,Modal,Box  } fr
 import * as Yup from 'yup'
 import axios from 'axios'
 import "./ChatList.css";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+  import { Slide } from 'react-toastify';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -17,6 +21,8 @@ const style = {
   p: 4,
 };
 export default function ChatList() {
+  const UserToken = useSelector(state=>state.loginId)
+  
   const [open, setOpen] = React.useState(false);
   const [contact,setContact]=useState({
     phone:""
@@ -27,10 +33,11 @@ export default function ChatList() {
     phone:Yup.string().required("Phone Number required").min(10,"Enter ten degits Number").matches(/[0-9]/,"Enter Only Number"),
 
   })
+  console.log(UserToken.token,'UserToken')
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const HandleContact=(e)=>{
-    setContact({...contact,[e.target.name]:e.target.value})
+    setContact({...contact,[e.target.name]:e.target.value.trim()})
     setError({})
   }
  const HandleAddContact=async()=>{
@@ -38,9 +45,34 @@ export default function ChatList() {
     await ValidationSchema.validate(contact,{abortEarly:false})
     setError({})
 
-    const response=await axios.post('http://localhost:5000/api/usercontact/contact',contact)
-    console.log(response)
+    const response=await axios.post('http://localhost:5000/api/usercontact/contact',contact,{headers:{'auth-token':UserToken.token}})
+    if(response.data.success==true) {
+      toast.success(response.data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+        });
+        setOpen(!open)
+    }else{
+      toast.error(response.data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Slide,
+    })
   }
+}
   catch(err){
     if (err instanceof Yup.ValidationError) {
       const validationErrors = {};
@@ -57,6 +89,19 @@ export default function ChatList() {
  }
   return (
     <>
+<ToastContainer
+position="top-center"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition={Slide}
+/>
       <div className="chat-top">
         <h5>Chats</h5>
         <IconButton onClick={handleOpen}>
