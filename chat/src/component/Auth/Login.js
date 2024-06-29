@@ -16,7 +16,7 @@ export default function Login() {
     password: "",
   });
   const [error, setError] = useState({});
-
+  const [count,setCount]=useState(false)
   const validationSchema = Yup.object({
     email: Yup.string()
       .required("Email is required")
@@ -45,7 +45,7 @@ export default function Login() {
     if (savedToken) {
       dispatch(LoginToken(savedToken));
     }
-  }, [dispatch]);
+  }, [count]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -64,6 +64,7 @@ export default function Login() {
           theme: "light",
           
           });
+          setCount(!count)
           localStorage.setItem('UserToken',JSON.stringify(response.data.UserToken))
          
           setTimeout(()=>{

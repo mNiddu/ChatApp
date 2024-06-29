@@ -1,14 +1,19 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton, TextField, InputAdornment,Button,Typography,Modal,Box  } from "@mui/material/";
 import * as Yup from 'yup'
 import axios from 'axios'
 import "./ChatList.css";
+import {ReactComponent as Notification} from '../../Images/noti.svg'
+import {ReactComponent as Correct} from '../../Images/correct.svg'
+import {ReactComponent as Wrong} from '../../Images/wrong.svg'
 import { useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
   import { Slide } from 'react-toastify';
+  import io from 'socket.io-client';
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -21,6 +26,8 @@ const style = {
   p: 4,
 };
 export default function ChatList() {
+  const [count,setCount]=useState(false)
+  const socket = io('http://localhost:5000');
   const UserToken = useSelector(state=>state.loginId)
   
   const [open, setOpen] = React.useState(false);
@@ -28,12 +35,33 @@ export default function ChatList() {
     phone:""
   })
   const [Error,setError]=useState({})
+  const [showNotifications,setShowNotifications]=useState(false)
 
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    socket.on('new_contact', (data) => {
+      console.log('New contact request:', data);
+      // Handle notification display or update state to show notifications
+      setShowNotifications(true); // Example: Update state to show notifications
+      toast.info(data.message); // Example: Use toast notifications
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+  const handleNotificationClick = () => {
+    setShowNotifications(!showNotifications);
+  };
   const ValidationSchema=Yup.object({
     phone:Yup.string().required("Phone Number required").min(10,"Enter ten degits Number").matches(/[0-9]/,"Enter Only Number"),
 
   })
-  console.log(UserToken.token,'UserToken')
+ 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const HandleContact=(e)=>{
@@ -59,6 +87,7 @@ export default function ChatList() {
         transition: Slide,
         });
         setOpen(!open)
+        setCount(!count)
     }else{
       toast.error(response.data.message, {
         position: "top-center",
@@ -102,12 +131,46 @@ pauseOnHover
 theme="light"
 transition={Slide}
 />
-      <div className="chat-top">
-        <h5>Chats</h5>
-        <IconButton onClick={handleOpen}>
-          <AddCircleOutlineIcon />
-        </IconButton>
+        <div className="chat-top">
+          <h5>Chats</h5>
+        <div className="chat-icon"> <IconButton onClick={handleOpen}>
+            <AddCircleOutlineIcon />
+          </IconButton>
+        <div className="notificatoin-center">
+        <IconButton onClick={handleNotificationClick}>
+          
+          <Notification />
+          </IconButton>
+        {showNotifications &&   <div className="notifications">
+            <div className="notification">
+            <div className="notify-lists">
+        <div className="notify-chats">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJA32WU4rBpx7maglqeEtt3ot1tPIRWptxA&s"
+            alt="Profile"
+          />
+
+          <div className="notify-list">
+            <h6>Suresh Kumar</h6>
+            <p>8152077321</p>
+          </div>
+        </div>
+
+        <div className="notify-date">
+         <div className="status">
+        <IconButton> <Correct/></IconButton>
+        <IconButton>  <Wrong/></IconButton>
+        
+         </div>
+          <h6>jan 6,2002</h6>
+        </div>
       </div>
+            </div>
+          </div>  }
+          
+        </div>
+          </div>
+        </div>
       <div className="chat-search">
         <TextField
           type="search"
