@@ -1,5 +1,6 @@
 const { io } = require('../socket'); // Import the 'io' instance from socket.js
-
+const Registration = require('../model/Register')
+const AddContact = require('../model/AddContact')
 const Contact = async (req, res) => {
   try {
     const { phone } = req.body;
@@ -21,8 +22,7 @@ const Contact = async (req, res) => {
     const UserContact = await AddContact({ friendId: FindUser.id, UserId: req.admin, status: 'pending' });
     const AddedContact = await UserContact.save();
 
-    // Emit notification to the user who received the contact request
-    io.to(FindUser.id).emit('new_contact', { message: "You have a new contact request", contact: AddedContact });
+  
 
     return res.json({ success: true, message: "User Added", AddedContact });
   } catch (err) {
@@ -30,4 +30,18 @@ const Contact = async (req, res) => {
   }
 }
 
-module.exports = { Contact };
+const GetContact = async(req,res)=>{
+  try{
+    const findContact = await AddContact.find({friendId:req.admin}).populate({path:'UserId'})
+    if(!findContact){
+      return res.send({message:"Request Failed",success:false})
+    } 
+    return res.send({message:"Request Success",success:true,findContact})
+  }
+  catch(err){
+    console.log(err)
+
+  }
+}
+
+module.exports = { Contact,GetContact};
