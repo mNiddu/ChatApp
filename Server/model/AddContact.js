@@ -3,11 +3,11 @@ const {Schema} = mongoose
 const AddContact = new Schema({
     friendId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Register'
+        ref:'Registration'
     },
     UserId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Register'
+        ref:'Registration'
     },
     status:{
         type:String,

@@ -24,7 +24,7 @@ const io = initializeSocket(server); // Initialize Socket.io and pass the HTTP s
 // Routes setup
 app.use('/api/Chat', require('./router/Register'));
 app.use('/api/usercontact', require('./router/AddContact'));
-
+app.use('/api/profile',express.static('./upload/Register'))
 connectToMongo();
 
 const port = process.env.PORT || 5000;

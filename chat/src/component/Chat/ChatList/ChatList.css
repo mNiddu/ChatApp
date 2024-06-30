@@ -215,3 +215,8 @@ padding: 10px;
     align-items: center;
 }
 
+.check-status{
+    
+    display: flex;
+}
+
