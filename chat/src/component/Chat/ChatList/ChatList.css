@@ -216,7 +216,35 @@ padding: 10px;
 }
 
 .check-status{
-    
+   
     display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    background-color: #f1f1f1;
+    border-radius:10px;
+}
+
+.check-status p {
+  
+    font-size: 1rem;
+    position: relative;
+    cursor: pointer;
+} 
+.check-status p::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0; /* Start with a width of 0 */
+    height: 3px; /* Adjust the height to the desired border thickness */
+    background-color: #79f1a4; /* Color of the border */
+    transition: width 0.3s ease-out; 
+    color: #6e6e6e;/* Transition effect for smooth sliding */
+} 
+
+.check-status p:hover::after,
+.check-status p.active::after {
+    
+    width: 100%; /* Full width on hover and when active */
 }
 
